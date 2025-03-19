@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scientific Number Accepter</title>
+
+  <!-- Link Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset dan Style Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Exo', sans-serif;
+      background: linear-gradient(-45deg, #0d1b2a, #1b263b, #415a77, #778da9);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Efek Background Berubah Warna */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Animasi Bintang Kecil */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: url('https://cdn.pixabay.com/photo/2016/06/21/23/16/stars-1475602_1280.png');
+      opacity: 0.3;
+      animation: starMove 50s linear infinite;
+    }
+
+    @keyframes starMove {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-200px); }
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: rgba(13, 27, 42, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      border-bottom: 2px solid #41ead4;
+    }
+    .navbar a {
+      color: #41ead4;
+      margin: 0 25px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: 'Lora', serif;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .navbar a:hover {
+      color: #ffffff;
+      text-shadow: 0px 0px 15px #41ead4;
+    }
+
+    /* Konten Utama */
+    .content {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .section {
+      display: none;
+      width: 80%;
+      max-width: 600px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .section.active {
+      display: block;
+    }
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 32px;
+      color: #41ead4;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      margin: 15px 0;
+    }
+
+    /* Input & Button */
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid #41ead4;
+      border-radius: 5px;
+      background: transparent;
+      color: #41ead4;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #41ead4, #5a189a);
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #5a189a, #41ead4);
+      transform: scale(1.1);
+      box-shadow: 0px 0px 15px #41ead4;
+    }
+
+    /* Animasi */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Bintang -->
+  <div class="stars"></div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a onclick="showSection('file')">File</a>
+    <a onclick="showSection('edit')">Edit</a>
+    <a onclick="showSection('run')">Run</a>
+    <a onclick="showSection('about')">About Us</a>
+  </div>
+  
+  <!-- Konten Utama -->
+  <div class="content">
+    <div id="file" class="section">
+      <h2>File</h2>
+      <p>Konten fitur file dapat ditambahkan di sini.</p>
+    </div>
+    <div id="edit" class="section">
+      <h2>Edit</h2>
+      <p>Konten fitur edit dapat ditambahkan di sini.</p>
+    </div>
+    <div id="run" class="section active">
+      <h2>Run</h2>
+      <p>Masukkan bilangan (format desimal atau notasi ilmiah):</p>
+      <input type="text" id="numberInput" placeholder="Masukkan bilangan">
+      <br>
+      <button onclick="validateNumber()">Run</button>
+      <p id="result"></p>
+    </div>
+    <div id="about" class="section">
+      <h2>About Us</h2>
+      <p>Nama   : Sepri Tandira'pak</p>
+      <p>NIM    : 231011060048</p>
+      <p>Kelas  : Teori Bahasa dan Otomata</p>
+      <p>Prodi  : Sistem Informasi</p>
+    </div>
+  </div>
+  
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
